@@ -9,8 +9,8 @@
 
     <script id="Listenoms" type="text/template">
         <ul>
-            <@ noms.forEach(function(nom) { @>
-                <li><@= nom @></li>
+            <@ noms.forEach(function(item) { @>
+                <li><@= item.nom @> <@= item.prenom @></li>
             <@ }) @>
         </ul>
     </script>
@@ -21,7 +21,7 @@
         // utilisation option delimiter ou je decide de remplacer les % par @
         function getnoms() {
             var template = document.getElementById("Listenoms").innerHTML;
-            var html = ejs.compile(template, {delimiter:'@'})({noms: ['pierre','pol','jak']});
+            var html = ejs.compile(template, {delimiter:'@'})({noms: [{nom:'jean',prenom:'pol'},{nom:'ccc',prenom:'pascal'}]});
             console.log(html); // j obtien la compilation de template foreach et listenoms
             document.getElementById('ici').innerHTML = html ;           
         }

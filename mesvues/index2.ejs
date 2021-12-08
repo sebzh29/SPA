@@ -7,21 +7,60 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+    <script id="Listenoms" type="text/template">
+        <ul>
+            <@ article.forEach(function(item) { @>
+                <li><@= item.nom @> <@= item.description @> <@= item.prix @</li>
+            <@ }) @>
+        </ul>
+    </script>
+        
     <script>
+        // création d'un string a partir du template
+        // utilisation option delimiter ou je decide de remplacer les % par @
+        function getarticles() {
+            // je recupere le contenu ejs qui se trouve dans le template dont l id est lestenoms
+            // ce contenu a un autre delimiteur pour quil ne soit pas interprete lors de la 1ere compilation
+            //a l appel de la route / qui effectuait un res.render('index')
 
-          function getarticles() {
-              // appel AJAX avec AXIOS
-             axios.get('http://localhost:8080/articles').then(response => {
-                 console.log(response.data); // on a tous nos articles provenant de la bdd
-                 // parcourir response.data avec foreach..
-                 // dans $("#ici") rajouter les articles avec la focntion append de jquery
-                 response.data.forEach(e=>{
-                    $("#article").append("<i>'"+e.nom+"'</i></h4><p>Prix : "+e.prix+"$<br>Description : "+e.description+"</p></div>")
-                })
-             })
-          }
+            var template = document.getElementById("Listenoms").innerHTML;
+            axios.get('http://localhost:8080/articles').then(response => {
+                // je vais chercher des donnee json que je recupere par une autre route du serveur node (app.js)
+                // qui est la route /articles. cette route me renvoi une liste d articles ds un tableau d objet
+                //(responde.data), je compile le template avec les donnees en signalant que le separateur open/close
+                //sera '@' puisque par defaut ejs traite l'operateur open/close '%'
+                var html = ejs.compile(template,{delimiter:'@'})({article: response.data});
+                // je remplace le contenu de <p id="ici">...</p> par ce resultat de la compilation
+
+                /* html:
+                        <ul>
+                            <li>produit1 15€</li>
+                            <li>produit2 25€</li>
+                        </ul>
+                */
+
+                document.getElementById('ici').innerHTML = html ;    
+            })
+        }
 
     </script>
+
+    
+    // <!-- <script>
+
+    //       function getarticles() {
+    //           // appel AJAX avec AXIOS
+    //          axios.get('http://localhost:8080/articles').then(response => {
+    //              console.log(response.data); // on a tous nos articles provenant de la bdd
+    //              // parcourir response.data avec foreach..
+    //              // dans $("#ici") rajouter les articles avec la focntion append de jquery
+    //              response.data.forEach(e=>{
+    //                 $("#article").append("<i>'"+e.nom+"'</i></h4><p>Prix : "+e.prix+"$<br>Description : "+e.description+"</p></div>")
+    //             })
+    //          })
+    //       }
+
+    // </script> -->
 
       
     <style>
