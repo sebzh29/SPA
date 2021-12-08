@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EJS Is Fun</title>
+    
+    <!-- CSS (load bootstrap from a CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://jsdelivr.net/npm/ejs@3.1.6/ejs.min.js"></script>
+
+    <script id="Listenoms" type="text/template">
+        <ul>
+            <@ noms.forEach(function(nom) { @>
+                <li><@= nom @></li>
+            <@ }) @>
+        </ul>
+    </script>
+
+    
+    <script>
+        // création d'un string a partir du template
+        // utilisation option delimiter ou je decide de remplacer les % par @
+        function getnoms() {
+            var template = document.getElementById("Listenoms").innerHTML;
+            var html = ejs.compile(template, {delimiter:'@'})({noms: ['pierre','pol','jak']});
+            console.log(html); // j obtien la compilation de template foreach et listenoms
+            document.getElementById('ici').innerHTML = html ;           
+        }
+
+    </script>
+    <style>
+        body { padding-top:50px; }
+    </style>
+    
+</head>
+
+<body class="container">
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">AFPA 2021 - Node</a>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Accueil</a>
+      </li>
+      <li class="nav-link" onclick="getnoms()">
+       Noms
+      </li>
+       
+    </ul>
+  </nav>
+  </header>
+
+
+<main>
+    <div class="jumbotron">
+        <h1>AFPA 2021 </h1>
+        <p id="ici">Welcome to les futurs DevOps</p>        
+    </div>
+</main>
+
+<footer>
+    <p class="text-center text-muted">© Copyright 2021 - Stagiaires DWWM - AFPA </p>
+
+</footer>
+
+</body>
+</html>

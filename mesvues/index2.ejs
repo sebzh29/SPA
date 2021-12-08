@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EJS Is Fun</title>   
+    <!-- CSS (load bootstrap from a CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+
+          function getarticles() {
+              // appel AJAX avec AXIOS
+             axios.get('http://localhost:8080/articles').then(response => {
+                 console.log(response.data); // on a tous nos articles provenant de la bdd
+                 // parcourir response.data avec foreach..
+                 // dans $("#ici") rajouter les articles avec la focntion append de jquery
+                 response.data.forEach(e=>{
+                    $("#article").append("<i>'"+e.nom+"'</i></h4><p>Prix : "+e.prix+"$<br>Description : "+e.description+"</p></div>")
+                })
+             })
+          }
+
+    </script>
+
+      
+    <style>
+        body { padding-top:50px; }
+    </style>
+</head>
+  
+<body class="container">
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">AFPA 2021 - Node</a>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Accueil</a>
+          </li>
+          <li class="nav-link" onclick="getarticles()">
+            Articles
+          </li>
+        </li>
+        <li class="nav-link" onclick="createarticle()">
+          Ajout articles
+        </li>
+         
+        </ul>
+      </nav>
+</header>
+
+<main>
+    <div class="jumbotron">
+        <h1>AFPA 2021 </h1>
+        <p id="ici">Welcome to les futurs DevOps</p>        
+    </div>
+</main>
+
+<footer>
+    <p class="text-center text-muted">© Copyright 2021 - Stagiaires DWWM - AFPA </p>
+
+</footer>
+
+</body>
+</html>
